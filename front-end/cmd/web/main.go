@@ -36,6 +36,7 @@ func render(w http.ResponseWriter, t string) {
 	// check to see if we already have the template in the cache
 	_, inMap := tc[t]
 	if !inMap {
+		log.Println("Parsing template and adding to cache")
 		// we don't have one, so create the template and add it to the cache
 		err = createTemplateCache(t)
 		if err != nil {
@@ -43,6 +44,8 @@ func render(w http.ResponseWriter, t string) {
 			log.Println(err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
+	} else {
+		log.Println("Using cached template")
 	}
 
 	// pull the template out of the cache
