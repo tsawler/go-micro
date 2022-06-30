@@ -26,21 +26,16 @@ var templateFS embed.FS
 
 func render(w http.ResponseWriter, t string) {
 
-	partials := []string{
-		"templates/base.layout.gohtml",
+	templates := []string{
+		fmt.Sprintf("templates/%s", t), // order matters; page must come first
 		"templates/header.partial.gohtml",
 		"templates/footer.partial.gohtml",
+		"templates/base.layout.gohtml",
 	}
 
-	var templateSlice []string
-	templateSlice = append(templateSlice, fmt.Sprintf("templates/%s", t))
-
-	for _, x := range partials {
-		templateSlice = append(templateSlice, x)
-	}
-
-	tmpl, err := template.ParseFS(templateFS, templateSlice...)
+	tmpl, err := template.ParseFS(templateFS, templates...)
 	if err != nil {
+		log.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -52,6 +47,7 @@ func render(w http.ResponseWriter, t string) {
 	data.BrokerURL = os.Getenv("BROKER_URL")
 
 	if err := tmpl.Execute(w, data); err != nil {
+		log.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
