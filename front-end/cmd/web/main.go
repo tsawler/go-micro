@@ -48,7 +48,7 @@ func render(w http.ResponseWriter, t string) {
 		log.Println("Using cached template")
 	}
 
-	// pull the template out of the cache
+	// pull the template out of the cache; if we get this far, it's in there.
 	tmpl = tc[t]
 
 	// create a struct so that we can easily send data to the template we want to render
