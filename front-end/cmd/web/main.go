@@ -71,8 +71,8 @@ func createTemplateCache(t string) error {
 	templates := []string{
 		fmt.Sprintf("templates/%s", t),    // order matters; page must come first
 		"templates/header.partial.gohtml", // these things, which the page depends on, can come in any order
-		"templates/footer.partial.gohtml",
-		"templates/base.layout.gohtml",
+		"templates/footer.partial.gohtml", // unless one of the partials depends on another; in that case,
+		"templates/base.layout.gohtml",    // the parent template must come first!
 	}
 
 	// parse the template
