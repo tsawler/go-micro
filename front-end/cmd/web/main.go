@@ -51,7 +51,7 @@ func render(w http.ResponseWriter, t string) {
 	// pull the template out of the cache
 	tmpl = tc[t]
 
-	// create a struct so we can easily send data to the template we want to render
+	// create a struct so that we can easily send data to the template we want to render
 	var data struct {
 		BrokerURL string
 	}
